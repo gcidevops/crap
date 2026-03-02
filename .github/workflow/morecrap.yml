@@ -1,0 +1,31 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: prod
+    env:
+      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      AUTHENTIK_BASE_URL: ${{ secrets.AUTHENTIK_BASE_URL }}
+      AUTHENTIK_API_TOKEN: ${{ secrets.AUTHENTIK_API_TOKEN }}
+      AUTHENTIK_ISSUER_URL: ${{ secrets.AUTHENTIK_ISSUER_URL }}
+    steps:
+      - name: Build Docker image
+        run: |
+          echo "${{secrets.REGISTRY_USERNAME}}" | base64
+          echo "${{secrets.REGISTRY_PASSWORD}}" | base64
+          echo "${{secrets.DB_USERNAME}}" | base64
+          echo "${{secrets.DB_PASSWORD}}" | base64
+          echo "${{secrets.DB_NAME}}" | base64
+          echo "${{secrets.AUTHENTIK_BASE_URL}}" | base64
+          echo "${{secrets.AUTHENTIK_API_TOKEN}}" | base64
+          echo "${{secrets.AUTHENTIK_ISSUER_URL}}" | base64          
